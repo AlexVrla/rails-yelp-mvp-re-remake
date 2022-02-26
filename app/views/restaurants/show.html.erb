@@ -1,0 +1,33 @@
+<h1><%= @restaurant.name %></h1>
+<p>
+<% if @restaurant.reviews == []%>
+  <p>This restaurant has no reviews yet.</p>
+<% else %>
+  <% @restaurant.reviews.each do |review| %>
+    <ul>
+      <li>
+        <%= review.rating %>
+        <%= review.content %>
+      </li>
+    </ul>
+  <% end %>
+<% end %>
+</p>
+
+<h3>Create a review</h3>
+<br>
+
+<%= form_with(model: @review, url: [@restaurant, @review]) do |form| %>
+ <%= form.label :rating %>
+ <%= form.number_field :rating %>
+ <%= form.text_field :content %>
+ <%= form.submit "post this shit!" %>
+<% end %>
+
+
+<% unless @restaurant == Restaurant.first %>
+<%= link_to 'previous', restaurant_path(@restaurant.id-1) %>
+<% end %>
+<% unless @restaurant == Restaurant.last %>
+<%= link_to 'next', restaurant_path(@restaurant.id+1) %>
+<% end %>
